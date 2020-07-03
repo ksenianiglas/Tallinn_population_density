@@ -15,5 +15,28 @@ df_TLN <- df_TLN %>%
             by = c('asumi_nimi' = 'asum')) %>%
   mutate(pop_density = rahvaarv/pindala)
 
+x_cent <- mean(c(531228.4, 552564.1))
+y_cent <- mean(c(6579473, 6595898))
+marg <- 10000
+
 ggplot(df_TLN) +
-  geom_sf(aes(fill = pop_density))
+  geom_sf(aes(fill = pop_density), 
+          colour = NA) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(),
+        panel.background = element_rect(fill = "#242424"),
+        plot.background = element_rect(fill = "#242424"),
+        legend.background = element_rect(fill = "#242424"),
+        legend.position = c(.85, .2),
+        legend.title = element_text(colour = "White"),
+        legend.text = element_text(colour = "White"),
+        plot.title = element_text(colour = "White")) + 
+  scale_fill_gradient(low = "#121212",
+                       high = "#AF1B3F",
+                      name = bquote(''*'People per ' ~ km^2*'')) +
+  xlim(x_cent - marg, x_cent + marg) +
+  ylim(y_cent - marg, y_cent + marg) 
+
+ggsave("TALLINN.png",
+       width = 8, height = 8)
